@@ -259,7 +259,6 @@ function buyTest(test){
   if(test.price === 0){ alert('This test is free'); startTest(test); return; }
   if(confirm('Buy "'+test.title+'" for ₹'+test.price+'? (Simulated)')){
 
-> It's me:
 alert('Payment success (simulated). Starting test.');
     startTest(test);
   }
