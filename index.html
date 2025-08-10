@@ -1,435 +1,594 @@
 <!doctype html>
 <html lang="hi">
+
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>ExamXpert — Demo</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root{
-      --primary:#004AAD;
-      --accent:#FFB703;
-      --bg:#F4F7FB;
-      --card:#ffffff;
-      --muted:#6b7280;
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0; font-family:'Poppins',system-ui,Segoe UI,Roboto,Arial; background:var(--bg); color:#0f172a;
-      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
-    }
-    .wrap{max-width:980px;margin:22px auto;padding:16px;}
-    header{
-      border-radius:14px;
-      padding:18px;
-      color:white;
-      background:linear-gradient(135deg,var(--primary), #00A3FF);
-      box-shadow:0 8px 30px rgba(2,6,23,0.12);
-      display:flex;justify-content:space-between;align-items:center;gap:12px;
-    }
-    header .title{font-size:20px;font-weight:700}
-    header .tag{font-size:13px;opacity:0.95}
-    .controls{display:flex;gap:10px;align-items:center}
-    .btn{padding:8px 12px;border-radius:10px;border:0;cursor:pointer;font-weight:600}
-    .btn-ghost{background:transparent;color:white;border:1px solid rgba(255,255,255,0.18)}
-    .btn-outline{background:#fff;border:1px solid rgba(0,74,173,0.12);color:var(--primary)}
-    .btn-primary{background:var(--primary);color:#fff}
-    .nav{display:flex;gap:10px;margin-top:14px;padding:12px 0}
-    .card{
-      background:var(--card);border-radius:12px;padding:14px;box-shadow:0 6px 20px rgba(13,16,30,0.04);
-      margin-bottom:14px;
-    }
-    .exam-list{display:flex;gap:12px;flex-wrap:wrap}
-    .exam-item{flex:1 1 30%;min-width:220px;border-radius:12px;padding:14px;border:1px solid #eef3ff;background:linear-gradient(180deg,#fff,#fbfdff);}
-    .exam-item h4{margin:0 0 6px 0}
-    .exam-item p{margin:0;color:var(--muted);font-size:13px}
-    .tests-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
-    .test-card{padding:12px;border-radius:10px;border:1px solid #eef2ff;background:#fff}
-    .test-card h5{margin:0 0 6px 0}
-    .meta{font-size:13px;color:var(--muted);margin-bottom:8px}
-    .action-row{display:flex;gap:8px;align-items:center}
-    .badge{display:inline-block;padding:5px 8px;border-radius:8px;background:var(--accent);font-weight:700;color:#0b0711;font-size:12px}
-    .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-    .timer{font-weight:700;color:var(--primary)}
-    .options{display:grid;gap:8px;margin-top:10px}
-    .option-btn{padding:10px;border-radius:10px;border:1px solid #e6eefc;background:#fff;text-align:left;cursor:pointer}
-    .option-selected{border:2px solid var(--primary);background:linear-gradient(90deg,#fff,#f7fbff)}
-    .footer{text-align:center;color:var(--muted);margin-top:22px;font-size:13px}
-    @media(max-width:720px){
-      .exam-item{flex-basis:100%}
-      header{flex-direction:column;align-items:flex-start;gap:8px}
-    }
-  </style>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>ExamXpert — Demo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #004AAD;
+            --accent: #FFB703;
+            --bg: #F4F7FB;
+            --card: #ffffff;
+            --muted: #6b7280;
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Poppins', system-ui, Segoe UI, Roboto, Arial;
+            background: var(--bg);
+            color: #0f172a;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .wrap {
+            max-width: 980px;
+            margin: 22px auto;
+            padding: 16px;
+        }
+
+        header {
+            border-radius: 14px;
+            padding: 18px;
+            color: white;
+            background: linear-gradient(135deg, var(--primary), #00A3FF);
+            box-shadow: 0 8px 30px rgba(2, 6, 23, 0.12);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+        }
+
+        header .title {
+            font-size: 20px;
+            font-weight: 700
+        }
+
+        header .tag {
+            font-size: 13px;
+            opacity: 0.95
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            align-items: center
+        }
+
+        .btn {
+            padding: 8px 12px;
+            border-radius: 10px;
+            border: 0;
+            cursor: pointer;
+            font-weight: 600
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.18)
+        }
+
+        .btn-outline {
+            background: #fff;
+            border: 1px solid rgba(0, 74, 173, 0.12);
+            color: var(--primary)
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: #fff
+        }
+
+        .nav {
+            display: flex;
+            gap: 10px;
+            margin-top: 14px;
+            padding: 12px 0
+        }
+
+        .card {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 14px;
+            box-shadow: 0 6px 20px rgba(13, 16, 30, 0.04);
+            margin-bottom: 14px;
+        }
+
+        .exam-list {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap
+        }
+
+        .exam-item {
+            flex: 1 1 30%;
+            min-width: 220px;
+            border-radius: 12px;
+            padding: 14px;
+            border: 1px solid #eef3ff;
+            background: linear-gradient(180deg, #fff, #fbfdff);
+        }
+
+        .exam-item h4 {
+            margin: 0 0 6px 0
+        }
+
+        .exam-item p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 13px
+        }
+
+        .tests-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 12px
+        }
+
+        .test-card {
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid #eef2ff;
+            background: #fff
+        }
+
+        .test-card h5 {
+            margin: 0 0 6px 0
+        }
+
+        .meta {
+            font-size: 13px;
+            color: var(--muted);
+            margin-bottom: 8px
+        }
+
+        .action-row {
+            display: flex;
+            gap: 8px;
+            align-items: center
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 8px;
+            border-radius: 8px;
+            background: var(--accent);
+            font-weight: 700;
+            color: #0b0711;
+            font-size: 12px
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px
+        }
+
+        .timer {
+            font-weight: 700;
+            color: var(--primary)
+        }
+
+        .options {
+            display: grid;
+            gap: 8px;
+            margin-top: 10px
+        }
+
+        .option-btn {
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid #e6eefc;
+            background: #fff;
+            text-align: left;
+            cursor: pointer
+        }
+
+        .option-selected {
+            border: 2px solid var(--primary);
+            background: linear-gradient(90deg, #fff, #f7fbff)
+        }
+
+        .footer {
+            text-align: center;
+            color: var(--muted);
+            margin-top: 22px;
+            font-size: 13px
+        }
+
+        @media(max-width:720px) {
+            .exam-item {
+                flex-basis: 100%
+            }
+
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px
+            }
+        }
+    </style>
 </head>
+
 <body>
-  <div class="wrap">
-    <header>
-      <div>
-        <div class="title">ExamXpert</div>
-        <div class="tag">Your Exam, Our Responsibility</div>
-      </div>
-      <div class="controls">
-        <div style="color:#fff;font-weight:600">Hi, Amitesh</div>
-        <button class="btn btn-ghost" id="logoutBtn">Logout</button>
-      </div>
-    </header>
+    <div class="wrap">
+        <header>
+            <div>
+                <div class="title">ExamXpert</div>
+                <div class="tag">Your Exam, Our Responsibility</div>
+            </div>
+            <div class="controls">
+                <div style="color:#fff;font-weight:600">Hi, Amitesh</div>
+                <button class="btn btn-ghost" id="logoutBtn">Logout</button>
+            </div>
+        </header>
 
-    <nav class="nav" aria-label="main navigation">
-      <a href="#" onclick="navigateTo('home');return false" style="color:var(--primary);font-weight:600">Home</a>
-      <a href="#" onclick="navigateTo('home');return false" style="color:#666">Exams</a>
-      <a href="#" onclick="navigateTo('home');return false" style="color:#666">My Tests</a>
-      <a href="#" onclick="navigateTo('home');return false" style="color:#666">Profile</a>
-    </nav>
+        <nav class="nav" aria-label="main navigation">
+            <a href="#" onclick="navigateTo('home');return false" style="color:var(--primary);font-weight:600">Home</a>
+            <a href="#" onclick="navigateTo('home');return false" style="color:#666">Exams</a>
+            <a href="#" onclick="navigateTo('home');return false" style="color:#666">My Tests</a>
+            <a href="#" onclick="navigateTo('home');return false" style="color:#666">Profile</a>
+        </nav>
 
-    <main id="app"></main>
+        <main id="app"></main>
 
-    <div class="footer">© 2025 ExamXpert • Demo prototype — data local to your browser</div>
-  </div>
-<script>
-/* Functional ExamXpert single-file app (improved UI + working logic) */
+        <div class="footer">© 2025 ExamXpert • Demo prototype — data local to your browser</div>
+    </div>
+    <script>
+        /* Functional ExamXpert single-file app (improved UI + working logic) */
 
-// storage key & sample data
-const STORAGE_KEY = 'examxpert_demo_v2';
-const SAMPLE_DATA = {
-  exams:[
-    {id:'upsc', title:'UPSC Prelims', description:'Civil Services Prelims'},
-    {id:'ssc', title:'SSC CGL', description:'Staff Selection Commission'},
-    {id:'bank', title:'Bank PO', description:'Banking exams'}
-  ],
-  tests:[
-    {id:'upsc-mock-1', examId:'upsc', title:'UPSC Mock Test 1', duration:15, totalQuestions:10, price:0, difficulty:'Medium'},
-    {id:'ssc-mock-1', examId:'ssc', title:'SSC Mock Test 1', duration:12, totalQuestions:8, price:20, difficulty:'Easy'},
-    {id:'bank-mock-1', examId:'bank', title:'Bank Mock Test 1', duration:10, totalQuestions:6, price:0, difficulty:'Easy'}
-  ],
-  questions:[
-    {id:'q1', testId:'upsc-mock-1', text:'The Constitution of India was adopted on', options:['15 August 1947','26 January 1950','26 November 1949','2 October 1950'], correct:1},
-    {id:'q2', testId:'upsc-mock-1', text:'Who wrote the National Song of India?', options:['Rabindranath Tagore','Bankim Chandra Chatterjee','Kavi Pradeep','Subhash Chandra Bose'], correct:0},
-    {id:'q3', testId:'upsc-mock-1', text:'Which is the largest state by area in India?', options:['Madhya Pradesh','Rajasthan','Maharashtra','Uttar Pradesh'], correct:1},
-    {id:'q4', testId:'upsc-mock-1', text:'INS Vikramaditya is a', options:['Aircraft Carrier','Destroyer','Frigate','Submarine'], correct:0},
-    {id:'q5', testId:'upsc-mock-1', text:'Which planet is known as the Red Planet?', options:['Venus','Mars','Jupiter','Saturn'], correct:1},
-    {id:'q6', testId:'upsc-mock-1', text:'The headquarters of WHO is at', options:['Geneva','New York','Paris','London'], correct:0},
-    {id:'q7', testId:'upsc-mock-1', text:'Who is the author of "Discovery of India"?', options:['Jawaharlal Nehru','Mahatma Gandhi','S. Radhakrishnan','B. R. Ambedkar'], correct:0},
-    {id:'q8', testId:'upsc-mock-1', text:'Which acid is present in citrus fruits?', options:['Tartaric acid','Citric acid','Lactic acid','Acetic acid'], correct:1},
-    {id:'q9', testId:'upsc-mock-1', text:'The longest river in India is', options:['Godavari','Ganges','Brahmaputra','Narmada'], correct:1},
-    {id:'q10', testId:'upsc-mock-1', text:'Who proposed the theory of relativity?', options:['Isaac Newton','Albert Einstein','Nikola Tesla','Galileo Galilei'], correct:1},
-    {id:'s1', testId:'ssc-mock-1', text:'Choose the odd one out: Apple, Banana, Carrot, Mango', options:['Apple','Banana','Carrot','Mango'], correct:2},
-    {id:'s2', testId:'ssc-mock-1', text:'2+2*2 = ?', options:['6','8','4','2'], correct:0},
-    {id:'b1', testId:'bank-mock-1', text:'RBI stands for', options:['Reserve Bank of India','Royal Bank of India','Regional Bank of India','None'], correct:0}
-  ],
-  results:[]
-};
+        // storage key & sample data
+        const STORAGE_KEY = 'examxpert_demo_v2';
+        const SAMPLE_DATA = {
+            exams: [
+                { id: 'upsc', title: 'UPSC Prelims', description: 'Civil Services Prelims' },
+                { id: 'ssc', title: 'SSC CGL', description: 'Staff Selection Commission' },
+                { id: 'bank', title: 'Bank PO', description: 'Banking exams' }
+            ],
+            tests: [
+                { id: 'upsc-mock-1', examId: 'upsc', title: 'UPSC Mock Test 1', duration: 15, totalQuestions: 10, price: 0, difficulty: 'Medium' },
+                { id: 'ssc-mock-1', examId: 'ssc', title: 'SSC Mock Test 1', duration: 12, totalQuestions: 8, price: 20, difficulty: 'Easy' },
+                { id: 'bank-mock-1', examId: 'bank', title: 'Bank Mock Test 1', duration: 10, totalQuestions: 6, price: 0, difficulty: 'Easy' }
+            ],
+            questions: [
+                { id: 'q1', testId: 'upsc-mock-1', text: 'The Constitution of India was adopted on', options: ['15 August 1947', '26 January 1950', '26 November 1949', '2 October 1950'], correct: 1 },
+                { id: 'q2', testId: 'upsc-mock-1', text: 'Who wrote the National Song of India?', options: ['Rabindranath Tagore', 'Bankim Chandra Chatterjee', 'Kavi Pradeep', 'Subhash Chandra Bose'], correct: 0 },
+                { id: 'q3', testId: 'upsc-mock-1', text: 'Which is the largest state by area in India?', options: ['Madhya Pradesh', 'Rajasthan', 'Maharashtra', 'Uttar Pradesh'], correct: 1 },
+                { id: 'q4', testId: 'upsc-mock-1', text: 'INS Vikramaditya is a', options: ['Aircraft Carrier', 'Destroyer', 'Frigate', 'Submarine'], correct: 0 },
+                { id: 'q5', testId: 'upsc-mock-1', text: 'Which planet is known as the Red Planet?', options: ['Venus', 'Mars', 'Jupiter', 'Saturn'], correct: 1 },
+                { id: 'q6', testId: 'upsc-mock-1', text: 'The headquarters of WHO is at', options: ['Geneva', 'New York', 'Paris', 'London'], correct: 0 },
+                { id: 'q7', testId: 'upsc-mock-1', text: 'Who is the author of "Discovery of India"?', options: ['Jawaharlal Nehru', 'Mahatma Gandhi', 'S. Radhakrishnan', 'B. R. Ambedkar'], correct: 0 },
+                { id: 'q8', testId: 'upsc-mock-1', text: 'Which acid is present in citrus fruits?', options: ['Tartaric acid', 'Citric acid', 'Lactic acid', 'Acetic acid'], correct: 1 },
+                { id: 'q9', testId: 'upsc-mock-1', text: 'The longest river in India is', options: ['Godavari', 'Ganges', 'Brahmaputra', 'Narmada'], correct: 1 },
+                { id: 'q10', testId: 'upsc-mock-1', text: 'Who proposed the theory of relativity?', options: ['Isaac Newton', 'Albert Einstein', 'Nikola Tesla', 'Galileo Galilei'], correct: 1 },
+                { id: 's1', testId: 'ssc-mock-1', text: 'Choose the odd one out: Apple, Banana, Carrot, Mango', options: ['Apple', 'Banana', 'Carrot', 'Mango'], correct: 2 },
+                { id: 's2', testId: 'ssc-mock-1', text: '2+2*2 = ?', options: ['6', '8', '4', '2'], correct: 0 },
+                { id: 'b1', testId: 'bank-mock-1', text: 'RBI stands for', options: ['Reserve Bank of India', 'Royal Bank of India', 'Regional Bank of India', 'None'], correct: 0 }
+            ],
+            results: []
+        };
 
-// localStorage helpers
-function seed(){
-  if(!localStorage.getItem(STORAGE_KEY)){
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(SAMPLE_DATA));
-  }
-}
-function readDB(){ return JSON.parse(localStorage.getItem(STORAGE_KEY)); }
-function writeDB(db){ localStorage.setItem(STORAGE_KEY, JSON.stringify(db)); }
+        // localStorage helpers
+        function seed() {
+            if (!localStorage.getItem(STORAGE_KEY)) {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(SAMPLE_DATA));
+            }
+        }
+        function readDB() { return JSON.parse(localStorage.getItem(STORAGE_KEY)); }
+        function writeDB(db) { localStorage.setItem(STORAGE_KEY, JSON.stringify(db)); }
 
-// app state
-let state = {route:'home', selectedExam:null, selectedTest:null, session:null, user:{id:'u1', name:'Amitesh'}};
-let timerInterval = null;
+        // app state
+        let state = { route: 'home', selectedExam: null, selectedTest: null, session: null, user: { id: 'u1', name: 'Amitesh' } };
+        let timerInterval = null;
 
-// small DOM helper
-function el(tag, attrs={}, ...children){
-  const e = document.createElement(tag);
-  for(const k in attrs){
-    if(k==='class') e.className = attrs[k];
-    else if(k==='html') e.innerHTML = attrs[k];
-    else e.setAttribute(k, attrs[k]);
-  }
-  children.forEach(c => { if(c===null) return; if(typeof c === 'string') e.appendChild(document.createTextNode(c)); else e.appendChild(c); });
-  return e;
-}
+        // small DOM helper
+        function el(tag, attrs = {}, ...children) {
+            const e = document.createElement(tag);
+            for (const k in attrs) {
+                if (k === 'class') e.className = attrs[k];
+                else if (k === 'html') e.innerHTML = attrs[k];
+                else e.setAttribute(k, attrs[k]);
+            }
+            children.forEach(c => { if (c === null) return; if (typeof c === 'string') e.appendChild(document.createTextNode(c)); else e.appendChild(c); });
+            return e;
+        }
 
-// root
-const app = document.getElementById('app');
+        // root
+        const app = document.getElementById('app');
 
-// navigation
-function navigate(route, opts={}){
-  state.route = route;
-  if(opts.examId) state.selectedExam = opts.examId;
-  if(opts.testId) state.selectedTest = opts.testId;
-  render();
-}
-// render router
-function render(){
-  seed();
-  const db = readDB();
-  app.innerHTML = '';
-  if(state.route === 'home') renderHome(db);
-  else if(state.route === 'exam') renderExam(db);
-  else if(state.route === 'test') renderTest(db);
-  else if(state.route === 'result') renderResult(db);
-}
+        // navigation
+        function navigate(route, opts = {}) {
+            state.route = route;
+            if (opts.examId) state.selectedExam = opts.examId;
+            if (opts.testId) state.selectedTest = opts.testId;
+            render();
+        }
+        // render router
+        function render() {
+            seed();
+            const db = readDB();
+            app.innerHTML = '';
+            if (state.route === 'home') renderHome(db);
+            else if (state.route === 'exam') renderExam(db);
+            else if (state.route === 'test') renderTest(db);
+            else if (state.route === 'result') renderResult(db);
+        }
 
-// Home screen
-function renderHome(db){
-  const container = el('div');
-  const card = el('div',{class:'card'});
-  card.appendChild(el('h3',{},'Choose Exam Category'));
-  const examList = el('div',{class:'exam-list'});
-  db.exams.forEach(ex=>{
-    const item = el('div',{class:'exam-item'});
-    item.appendChild(el('h4',{},ex.title));
-    item.appendChild(el('p',{},ex.description));
-    const row = el('div',{style:'margin-top:10px;display:flex;gap:8px;align-items:center'});
-    const open = el('button',{class:'btn btn-outline'},'Open');
-    open.onclick = ()=> navigate('exam',{examId:ex.id});
-    row.appendChild(open);
-    item.appendChild(row);
-    examList.appendChild(item);
-  });
-  card.appendChild(examList);
-  container.appendChild(card);
+        // Home screen
+        function renderHome(db) {
+            const container = el('div');
+            const card = el('div', { class: 'card' });
+            card.appendChild(el('h3', {}, 'Choose Exam Category'));
+            const examList = el('div', { class: 'exam-list' });
+            db.exams.forEach(ex => {
+                const item = el('div', { class: 'exam-item' });
+                item.appendChild(el('h4', {}, ex.title));
+                item.appendChild(el('p', {}, ex.description));
+                const row = el('div', { style: 'margin-top:10px;display:flex;gap:8px;align-items:center' });
+                const open = el('button', { class: 'btn btn-outline' }, 'Open');
+                open.onclick = () => navigate('exam', { examId: ex.id });
+                row.appendChild(open);
+                item.appendChild(row);
+                examList.appendChild(item);
+            });
+            card.appendChild(examList);
+            container.appendChild(card);
 
-  // Tests grid
-  const tcard = el('div',{class:'card'});
-  tcard.appendChild(el('h3',{},'Available Tests'));
-  const grid = el('div',{class:'tests-grid'});
-  db.tests.forEach(t=>{
-    const tc = el('div',{class:'test-card'});
-    tc.appendChild(el('h5',{},t.title));
-    tc.appendChild(el('div',{class:'meta'}, (t.totalQuestions || '—') + ' Q • ' + t.duration + ' min • ' + t.difficulty));
-    const action = el('div',{class:'action-row'});
-    if(t.price>0){
-      const buy = el('button',{class:'btn btn-primary'}, 'Buy ₹'+t.price);
-      buy.onclick = ()=> buyTest(t);
-      const preview = el('button',{class:'btn btn-outline'}, 'Preview');
-      preview.onclick = ()=> startTest(t);
-      action.appendChild(buy); action.appendChild(preview);
-    } else {
-      const start = el('button',{class:'btn btn-primary'}, 'Start Free');
-      start.onclick = ()=> startTest(t);
-      action.appendChild(start);
-    }
-    tc.appendChild(action);
-    grid.appendChild(tc);
-  });
-  tcard.appendChild(grid);
-  container.appendChild(tcard);
+            // Tests grid
+            const tcard = el('div', { class: 'card' });
+            tcard.appendChild(el('h3', {}, 'Available Tests'));
+            const grid = el('div', { class: 'tests-grid' });
+            db.tests.forEach(t => {
+                const tc = el('div', { class: 'test-card' });
+                tc.appendChild(el('h5', {}, t.title));
+                tc.appendChild(el('div', { class: 'meta' }, (t.totalQuestions || '—') + ' Q • ' + t.duration + ' min • ' + t.difficulty));
+                const action = el('div', { class: 'action-row' });
+                if (t.price > 0) {
+                    const buy = el('button', { class: 'btn btn-primary' }, 'Buy ₹' + t.price);
+                    buy.onclick = () => buyTest(t);
+                    const preview = el('button', { class: 'btn btn-outline' }, 'Preview');
+                    preview.onclick = () => startTest(t);
+                    action.appendChild(buy); action.appendChild(preview);
+                } else {
+                    const start = el('button', { class: 'btn btn-primary' }, 'Start Free');
+                    start.onclick = () => startTest(t);
+                    action.appendChild(start);
+                }
+                tc.appendChild(action);
+                grid.appendChild(tc);
+            });
+            tcard.appendChild(grid);
+            container.appendChild(tcard);
 
-  app.appendChild(container);
-}
+            app.appendChild(container);
+        }
 
-// Exam screen (tests for an exam)
-function renderExam(db){
-  const exam = db.exams.find(e=> e.id === state.selectedExam);
-  if(!exam){ navigate('home'); return; }
-  const container = el('div');
-  const top = el('div',{class:'topbar'});
-  const back = el('button',{class:'btn btn-outline'},'← Back');
-  back.onclick = ()=> navigate('home');
-  top.appendChild(back);
-  top.appendChild(el('h3',{},exam.title));
-  container.appendChild(top);
+        // Exam screen (tests for an exam)
+        function renderExam(db) {
+            const exam = db.exams.find(e => e.id === state.selectedExam);
+            if (!exam) { navigate('home'); return; }
+            const container = el('div');
+            const top = el('div', { class: 'topbar' });
+            const back = el('button', { class: 'btn btn-outline' }, '← Back');
+            back.onclick = () => navigate('home');
+            top.appendChild(back);
+            top.appendChild(el('h3', {}, exam.title));
+            container.appendChild(top);
 
-  const card = el('div',{class:'card'});
-  card.appendChild(el('h4',{},'Tests'));
-  const list = el('div');
-  const dbTests = db.tests.filter(t=> t.examId === exam.id);
-  dbTests.forEach(t=>{
-    const row = el('div',{style:'display:flex;justify-content:space-between;align-items:center;padding:10px;border-radius:8px;border:1px solid #f0f4ff;margin-bottom:8px'});
-    const left = el('div');
-    left.appendChild(el('strong',{},t.title));
-    left.appendChild(el('div',{class:'meta'}, (t.totalQuestions||'—')+' Q • '+t.duration+' min • '+t.difficulty ));
-    row.appendChild(left);
-    const right = el('div');
-    if(t.price>0){
-      const buy = el('button',{class:'btn btn-primary'}, 'Buy ₹'+t.price);
-      buy.onclick = ()=> buyTest(t);
-      right.appendChild(buy);
-    } else {
-      const start = el('button',{class:'btn btn-primary'}, 'Start');
-      start.onclick = ()=> startTest(t);
-      right.appendChild(start);
-    }
-    row.appendChild(right);
-    list.appendChild(row);
-  });
-  card.appendChild(list);
-  container.appendChild(card);
-  app.appendChild(container);
-}
+            const card = el('div', { class: 'card' });
+            card.appendChild(el('h4', {}, 'Tests'));
+            const list = el('div');
+            const dbTests = db.tests.filter(t => t.examId === exam.id);
+            dbTests.forEach(t => {
+                const row = el('div', { style: 'display:flex;justify-content:space-between;align-items:center;padding:10px;border-radius:8px;border:1px solid #f0f4ff;margin-bottom:8px' });
+                const left = el('div');
+                left.appendChild(el('strong', {}, t.title));
+                left.appendChild(el('div', { class: 'meta' }, (t.totalQuestions || '—') + ' Q • ' + t.duration + ' min • ' + t.difficulty));
+                row.appendChild(left);
+                const right = el('div');
+                if (t.price > 0) {
+                    const buy = el('button', { class: 'btn btn-primary' }, 'Buy ₹' + t.price);
+                    buy.onclick = () => buyTest(t);
+                    right.appendChild(buy);
+                } else {
+                    const start = el('button', { class: 'btn btn-primary' }, 'Start');
+                    start.onclick = () => startTest(t);
+                    right.appendChild(start);
+                }
+                row.appendChild(right);
+                list.appendChild(row);
+            });
+            card.appendChild(list);
+            container.appendChild(card);
+            app.appendChild(container);
+        }
 
-// Start / Buy handlers
-function buyTest(test){
-  if(test.price === 0){ alert('This test is free'); startTest(test); return; }
-  if(confirm('Buy "'+test.title+'" for ₹'+test.price+'? (Simulated)')){
+        // Start / Buy handlers
+        function buyTest(test) {
+            if (test.price === 0) { alert('This test is free'); startTest(test); return; }
+            if (confirm('Buy "' + test.title + '" for ₹' + test.price + '? (Simulated)')) {
 
-alert('Payment success (simulated). Starting test.');
-    startTest(test);
-  }
-}
-function startTest(test){
-  const db = readDB();
-  const qs = db.questions.filter(q=> q.testId === test.id);
-  state.session = {
-    testId: test.id,
-    testTitle: test.title,
-    duration: test.duration,
-    questions: qs,
-    index: 0,
-    answers: Array(qs.length).fill(null),
-    marked: Array(qs.length).fill(false),
-    secondsLeft: test.duration * 60
-  };
-  state.route = 'test';
-  render();
-}
+                alert('Payment success (simulated). Starting test.');
+                startTest(test);
+            }
+        }
+        function startTest(test) {
+            const db = readDB();
+            const qs = db.questions.filter(q => q.testId === test.id);
+            state.session = {
+                testId: test.id,
+                testTitle: test.title,
+                duration: test.duration,
+                questions: qs,
+                index: 0,
+                answers: Array(qs.length).fill(null),
+                marked: Array(qs.length).fill(false),
+                secondsLeft: test.duration * 60
+            };
+            state.route = 'test';
+            render();
+        }
 
-// Test screen
-function renderTest(db){
-  const s = state.session;
-  if(!s){ navigate('home'); return; }
-  const container = el('div');
-  const top = el('div',{class:'topbar'});
-  const exit = el('button',{class:'btn btn-outline'}, 'Exit');
-  exit.onclick = ()=> { if(confirm('Exit test? Progress will be lost.')) navigate('home'); };
-  top.appendChild(exit);
-  top.appendChild(el('div',{}, s.testTitle ));
-  const timer = el('div',{class:'timer'}, formatTime(s.secondsLeft));
-  top.appendChild(timer);
-  container.appendChild(top);
+        // Test screen
+        function renderTest(db) {
+            const s = state.session;
+            if (!s) { navigate('home'); return; }
+            const container = el('div');
+            const top = el('div', { class: 'topbar' });
+            const exit = el('button', { class: 'btn btn-outline' }, 'Exit');
+            exit.onclick = () => { if (confirm('Exit test? Progress will be lost.')) navigate('home'); };
+            top.appendChild(exit);
+            top.appendChild(el('div', {}, s.testTitle));
+            const timer = el('div', { class: 'timer' }, formatTime(s.secondsLeft));
+            top.appendChild(timer);
+            container.appendChild(top);
 
-  // timer
-  if(timerInterval) clearInterval(timerInterval);
-  timerInterval = setInterval(()=>{
-    s.secondsLeft -= 1;
-    timer.textContent = formatTime(s.secondsLeft);
-    if(s.secondsLeft <= 0){
-      clearInterval(timerInterval);
-      alert('Time over — submitting test');
-      submitTest();
-    }
-  },1000);
+            // timer
+            if (timerInterval) clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                s.secondsLeft -= 1;
+                timer.textContent = formatTime(s.secondsLeft);
+                if (s.secondsLeft <= 0) {
+                    clearInterval(timerInterval);
+                    alert('Time over — submitting test');
+                    submitTest();
+                }
+            }, 1000);
 
-  const card = el('div',{class:'card'});
-  if(s.questions.length === 0){
-    card.appendChild(el('p',{},'इस टेस्ट में अभी कोई प्रश्न उपलब्ध नहीं हैं।'));
-    card.appendChild(el('button',{class:'btn btn-primary', style:'margin-top:10px'}, 'Back to Home'));
-    card.querySelector('button').onclick = ()=> navigate('home');
-    container.appendChild(card);
-    app.appendChild(container);
-    return;
-  }
+            const card = el('div', { class: 'card' });
+            if (s.questions.length === 0) {
+                card.appendChild(el('p', {}, 'इस टेस्ट में अभी कोई प्रश्न उपलब्ध नहीं हैं।'));
+                card.appendChild(el('button', { class: 'btn btn-primary', style: 'margin-top:10px' }, 'Back to Home'));
+                card.querySelector('button').onclick = () => navigate('home');
+                container.appendChild(card);
+                app.appendChild(container);
+                return;
+            }
 
-  const q = s.questions[s.index];
-  card.appendChild(el('div',{style:'margin-bottom:8px;font-size:14px;font-weight:600'}, 'Q '+(s.index+1)+' / '+s.questions.length));
-  card.appendChild(el('div',{style:'margin-bottom:12px;font-size:16px'}, q.text ));
+            const q = s.questions[s.index];
+            card.appendChild(el('div', { style: 'margin-bottom:8px;font-size:14px;font-weight:600' }, 'Q ' + (s.index + 1) + ' / ' + s.questions.length));
+            card.appendChild(el('div', { style: 'margin-bottom:12px;font-size:16px' }, q.text));
 
-  const opts = el('div',{class:'options'});
-  q.options.forEach((opt,i)=>{
-    const btn = el('button',{class:'option-btn'}, String.fromCharCode(65+i)+'. '+opt);
-    if(s.answers[s.index] === i) btn.classList.add('option-selected');
-    btn.onclick = ()=>{
-      s.answers[s.index] = i;
-      render(); // re-render to reflect selection
-    };
-    opts.appendChild(btn);
-  });
-  card.appendChild(opts);
+            const opts = el('div', { class: 'options' });
+            q.options.forEach((opt, i) => {
+                const btn = el('button', { class: 'option-btn' }, String.fromCharCode(65 + i) + '. ' + opt);
+                if (s.answers[s.index] === i) btn.classList.add('option-selected');
+                btn.onclick = () => {
+                    s.answers[s.index] = i;
+                    render(); // re-render to reflect selection
+                };
+                opts.appendChild(btn);
+            });
+            card.appendChild(opts);
 
-  // bottom actions
-  const bottom = el('div',{style:'display:flex;justify-content:space-between;align-items:center;margin-top:12px'});
-  const left = el('div');
-  const markBtn = el('button',{class:'btn btn-outline'}, s.marked[s.index] ? 'Unmark' : 'Mark for Review');
-  markBtn.onclick = ()=> { s.marked[s.index] = !s.marked[s.index]; render(); };
-  left.appendChild(markBtn);
-  bottom.appendChild(left);
+            // bottom actions
+            const bottom = el('div', { style: 'display:flex;justify-content:space-between;align-items:center;margin-top:12px' });
+            const left = el('div');
+            const markBtn = el('button', { class: 'btn btn-outline' }, s.marked[s.index] ? 'Unmark' : 'Mark for Review');
+            markBtn.onclick = () => { s.marked[s.index] = !s.marked[s.index]; render(); };
+            left.appendChild(markBtn);
+            bottom.appendChild(left);
 
-  const right = el('div');
-  const prev = el('button',{class:'btn btn-outline'}, 'Previous');
-  prev.onclick = ()=> { s.index = Math.max(0, s.index-1); render(); };
-  const next = el('button',{class:'btn btn-primary', style:'margin-left:8px'}, 'Next');
-  next.onclick = ()=> { s.index = Math.min(s.questions.length-1, s.index+1); render(); };
-  right.appendChild(prev); right.appendChild(next);
-  bottom.appendChild(right);
+            const right = el('div');
+            const prev = el('button', { class: 'btn btn-outline' }, 'Previous');
+            prev.onclick = () => { s.index = Math.max(0, s.index - 1); render(); };
+            const next = el('button', { class: 'btn btn-primary', style: 'margin-left:8px' }, 'Next');
+            next.onclick = () => { s.index = Math.min(s.questions.length - 1, s.index + 1); render(); };
+            right.appendChild(prev); right.appendChild(next);
+            bottom.appendChild(right);
 
-  card.appendChild(bottom);
+            card.appendChild(bottom);
 
-  const submitRow = el('div',{style:'display:flex;align-items:center;gap:12px;margin-top:12px'});
-  const submitBtn = el('button',{class:'btn btn-primary'}, 'Submit Test');
-  submitBtn.onclick = ()=> { if(confirm('क्या आप टेस्ट सबमिट करना चाहते हैं?')) submitTest(); };
-  submitRow.appendChild(submitBtn);
-  submitRow.appendChild(el('div',{class:'meta'}, 'Marked: '+ s.marked.filter(Boolean).length + ' • Answered: ' + s.answers.filter(a=> a!==null).length ));
-  card.appendChild(submitRow);
+            const submitRow = el('div', { style: 'display:flex;align-items:center;gap:12px;margin-top:12px' });
+            const submitBtn = el('button', { class: 'btn btn-primary' }, 'Submit Test');
+            submitBtn.onclick = () => { if (confirm('क्या आप टेस्ट सबमिट करना चाहते हैं?')) submitTest(); };
+            submitRow.appendChild(submitBtn);
+            submitRow.appendChild(el('div', { class: 'meta' }, 'Marked: ' + s.marked.filter(Boolean).length + ' • Answered: ' + s.answers.filter(a => a !== null).length));
+            card.appendChild(submitRow);
 
-  container.appendChild(card);
-  app.appendChild(container);
-}
-// submit logic
-function submitTest(){
-  if(timerInterval) clearInterval(timerInterval);
-  const s = state.session;
-  if(!s) return;
-  let correct=0, wrong=0, unattempted=0;
-  const perQuestion = [];
-  s.questions.forEach((q, idx)=>{
-    const sel = s.answers[idx];
-    if(sel === null || sel === undefined){ unattempted++; perQuestion.push({id:q.id, selected:null, correct:q.correct}); }
-    else if(sel === q.correct){ correct++; perQuestion.push({id:q.id, selected:sel, correct:q.correct}); }
-    else { wrong++; perQuestion.push({id:q.id, selected:sel, correct:q.correct}); }
-  });
-  const score = correct - 0.25 * wrong;
-  const res = { id:'res_'+Date.now(), testId:s.testId, userId:state.user.id, score, correct, wrong, unattempted, total:s.questions.length, date:new Date().toISOString(), perQuestion };
-  const db = readDB();
-  db.results = db.results || [];
-  db.results.push(res);
-  writeDB(db);
-  state.session = null;
-  state.route = 'result';
-  render();
-}
+            container.appendChild(card);
+            app.appendChild(container);
+        }
+        // submit logic
+        function submitTest() {
+            if (timerInterval) clearInterval(timerInterval);
+            const s = state.session;
+            if (!s) return;
+            let correct = 0, wrong = 0, unattempted = 0;
+            const perQuestion = [];
+            s.questions.forEach((q, idx) => {
+                const sel = s.answers[idx];
+                if (sel === null || sel === undefined) { unattempted++; perQuestion.push({ id: q.id, selected: null, correct: q.correct }); }
+                else if (sel === q.correct) { correct++; perQuestion.push({ id: q.id, selected: sel, correct: q.correct }); }
+                else { wrong++; perQuestion.push({ id: q.id, selected: sel, correct: q.correct }); }
+            });
+            const score = correct - 0.25 * wrong;
+            const res = { id: 'res_' + Date.now(), testId: s.testId, userId: state.user.id, score, correct, wrong, unattempted, total: s.questions.length, date: new Date().toISOString(), perQuestion };
+            const db = readDB();
+            db.results = db.results || [];
+            db.results.push(res);
+            writeDB(db);
+            state.session = null;
+            state.route = 'result';
+            render();
+        }
 
-// result screen
-function renderResult(db){
-  const node = el('div');
-  const res = (db.results && db.results.length>0) ? db.results[db.results.length-1] : null;
-  const card = el('div',{class:'card'});
-  if(!res){
-    card.appendChild(el('h3',{},'No results yet'));
-    card.appendChild(el('p',{},'Take a test to see your result.'));
-    card.appendChild(el('button',{class:'btn btn-primary', style:'margin-top:10px'}, 'Go Home'));
-    card.querySelector('button').onclick = ()=> navigate('home');
-    node.appendChild(card);
-    app.appendChild(node);
-    return;
-  }
-  card.appendChild(el('h3',{},'Test Result'));
-  card.appendChild(el('div',{style:'font-size:18px;font-weight:700;margin-top:6px'}, 'Score: ' + res.score.toFixed(2)));
-  card.appendChild(el('div',{style:'margin-top:8px;color:var(--muted)'}, 'Correct: '+res.correct+' • Wrong: '+res.wrong+' • Unattempted: '+res.unattempted));
-  card.appendChild(el('div',{style:'margin-top:8px;color:var(--muted)'} , 'Time: ' + new Date(res.date).toLocaleString() ));
-  card.appendChild(el('h4',{style:'margin-top:12px'}, 'Per question review'));
-  const grid = el('div',{class:'results-grid'});
-  res.perQuestion.forEach((pq, idx)=>{
-    const it = el('div',{style:'padding:8px;border-radius:8px;border:1px solid #eef2ff;margin-top:8px'});
-    it.appendChild(el('div',{}, 'Q'+(idx+1)+': Selected: ' + (pq.selected === null ? '—' : String.fromCharCode(65 + pq.selected)) ));
-    it.appendChild(el('div',{style:'color:var(--muted)'}, 'Correct: ' + String.fromCharCode(65 + pq.correct) ));
-    grid.appendChild(it);
-  });
-  card.appendChild(grid);
-  const back = el('button',{class:'btn btn-primary', style:'margin-top:12px'}, 'Back to Home');
-  back.onclick = ()=> navigate('home');
-  card.appendChild(back);
-  node.appendChild(card);
-  app.appendChild(node);
-}
+        // result screen
+        function renderResult(db) {
+            const node = el('div');
+            const res = (db.results && db.results.length > 0) ? db.results[db.results.length - 1] : null;
+            const card = el('div', { class: 'card' });
+            if (!res) {
+                card.appendChild(el('h3', {}, 'No results yet'));
+                card.appendChild(el('p', {}, 'Take a test to see your result.'));
+                card.appendChild(el('button', { class: 'btn btn-primary', style: 'margin-top:10px' }, 'Go Home'));
+                card.querySelector('button').onclick = () => navigate('home');
+                node.appendChild(card);
+                app.appendChild(node);
+                return;
+            }
+            card.appendChild(el('h3', {}, 'Test Result'));
+            card.appendChild(el('div', { style: 'font-size:18px;font-weight:700;margin-top:6px' }, 'Score: ' + res.score.toFixed(2)));
+            card.appendChild(el('div', { style: 'margin-top:8px;color:var(--muted)' }, 'Correct: ' + res.correct + ' • Wrong: ' + res.wrong + ' • Unattempted: ' + res.unattempted));
+            card.appendChild(el('div', { style: 'margin-top:8px;color:var(--muted)' }, 'Time: ' + new Date(res.date).toLocaleString()));
+            card.appendChild(el('h4', { style: 'margin-top:12px' }, 'Per question review'));
+            const grid = el('div', { class: 'results-grid' });
+            res.perQuestion.forEach((pq, idx) => {
+                const it = el('div', { style: 'padding:8px;border-radius:8px;border:1px solid #eef2ff;margin-top:8px' });
+                it.appendChild(el('div', {}, 'Q' + (idx + 1) + ': Selected: ' + (pq.selected === null ? '—' : String.fromCharCode(65 + pq.selected))));
+                it.appendChild(el('div', { style: 'color:var(--muted)' }, 'Correct: ' + String.fromCharCode(65 + pq.correct)));
+                grid.appendChild(it);
+            });
+            card.appendChild(grid);
+            const back = el('button', { class: 'btn btn-primary', style: 'margin-top:12px' }, 'Back to Home');
+            back.onclick = () => navigate('home');
+            card.appendChild(back);
+            node.appendChild(card);
+            app.appendChild(node);
+        }
 
-// format time
-function formatTime(sec){
-  const m = Math.floor(sec/60), s = sec % 60;
-  return String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
-}
+        // format time
+        function formatTime(sec) {
+            const m = Math.floor(sec / 60), s = sec % 60;
+            return String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+        }
 
-// logout button (demo)
-document.getElementById('logoutBtn').addEventListener('click', ()=>{ if(confirm('Logout? (demo)')) alert('Logged out (demo)'); });
+        // logout button (demo)
+        document.getElementById('logoutBtn').addEventListener('click', () => { if (confirm('Logout? (demo)')) alert('Logged out (demo)'); });
 
-// initial
-render();
+        // initial
+        render();
 
-</script>
+    </script>
 </body>
+
 </html>
