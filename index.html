@@ -1,4 +1,3 @@
-> It's me:
 <!doctype html>
 <html lang="hi">
 <head>
@@ -86,8 +85,6 @@
 
     <div class="footer">© 2025 ExamXpert • Demo prototype — data local to your browser</div>
   </div>
-
-> It's me:
 <script>
 /* Functional ExamXpert single-file app (improved UI + working logic) */
 
@@ -157,8 +154,6 @@ function navigate(route, opts={}){
   if(opts.testId) state.selectedTest = opts.testId;
   render();
 }
-
-> It's me:
 // render router
 function render(){
   seed();
@@ -366,3 +361,76 @@ function renderTest(db){
   container.appendChild(card);
   app.appendChild(container);
 }
+// submit logic
+function submitTest(){
+  if(timerInterval) clearInterval(timerInterval);
+  const s = state.session;
+  if(!s) return;
+  let correct=0, wrong=0, unattempted=0;
+  const perQuestion = [];
+  s.questions.forEach((q, idx)=>{
+    const sel = s.answers[idx];
+    if(sel === null || sel === undefined){ unattempted++; perQuestion.push({id:q.id, selected:null, correct:q.correct}); }
+    else if(sel === q.correct){ correct++; perQuestion.push({id:q.id, selected:sel, correct:q.correct}); }
+    else { wrong++; perQuestion.push({id:q.id, selected:sel, correct:q.correct}); }
+  });
+  const score = correct - 0.25 * wrong;
+  const res = { id:'res_'+Date.now(), testId:s.testId, userId:state.user.id, score, correct, wrong, unattempted, total:s.questions.length, date:new Date().toISOString(), perQuestion };
+  const db = readDB();
+  db.results = db.results || [];
+  db.results.push(res);
+  writeDB(db);
+  state.session = null;
+  state.route = 'result';
+  render();
+}
+
+// result screen
+function renderResult(db){
+  const node = el('div');
+  const res = (db.results && db.results.length>0) ? db.results[db.results.length-1] : null;
+  const card = el('div',{class:'card'});
+  if(!res){
+    card.appendChild(el('h3',{},'No results yet'));
+    card.appendChild(el('p',{},'Take a test to see your result.'));
+    card.appendChild(el('button',{class:'btn btn-primary', style:'margin-top:10px'}, 'Go Home'));
+    card.querySelector('button').onclick = ()=> navigate('home');
+    node.appendChild(card);
+    app.appendChild(node);
+    return;
+  }
+  card.appendChild(el('h3',{},'Test Result'));
+  card.appendChild(el('div',{style:'font-size:18px;font-weight:700;margin-top:6px'}, 'Score: ' + res.score.toFixed(2)));
+  card.appendChild(el('div',{style:'margin-top:8px;color:var(--muted)'}, 'Correct: '+res.correct+' • Wrong: '+res.wrong+' • Unattempted: '+res.unattempted));
+  card.appendChild(el('div',{style:'margin-top:8px;color:var(--muted)'} , 'Time: ' + new Date(res.date).toLocaleString() ));
+  card.appendChild(el('h4',{style:'margin-top:12px'}, 'Per question review'));
+  const grid = el('div',{class:'results-grid'});
+  res.perQuestion.forEach((pq, idx)=>{
+    const it = el('div',{style:'padding:8px;border-radius:8px;border:1px solid #eef2ff;margin-top:8px'});
+    it.appendChild(el('div',{}, 'Q'+(idx+1)+': Selected: ' + (pq.selected === null ? '—' : String.fromCharCode(65 + pq.selected)) ));
+    it.appendChild(el('div',{style:'color:var(--muted)'}, 'Correct: ' + String.fromCharCode(65 + pq.correct) ));
+    grid.appendChild(it);
+  });
+  card.appendChild(grid);
+  const back = el('button',{class:'btn btn-primary', style:'margin-top:12px'}, 'Back to Home');
+  back.onclick = ()=> navigate('home');
+  card.appendChild(back);
+  node.appendChild(card);
+  app.appendChild(node);
+}
+
+// format time
+function formatTime(sec){
+  const m = Math.floor(sec/60), s = sec % 60;
+  return String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+}
+
+// logout button (demo)
+document.getElementById('logoutBtn').addEventListener('click', ()=>{ if(confirm('Logout? (demo)')) alert('Logged out (demo)'); });
+
+// initial
+render();
+
+</script>
+</body>
+</html>
